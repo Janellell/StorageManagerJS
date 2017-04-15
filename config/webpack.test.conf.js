@@ -3,7 +3,7 @@ var merge = require('webpack-merge');
 var baseConfig = require('./webpack.base.conf');
 
 var webpackConfig = merge(baseConfig, {
-  devtool: 'inline-source-map'
+  devtool: 'inline-source-map',
 });
 
 // no need for entry point during tests

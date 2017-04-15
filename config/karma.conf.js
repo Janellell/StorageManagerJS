@@ -4,15 +4,15 @@ var webpackConfig = require('./webpack.test.conf');
 
 module.exports = function(config) {
   config.set({
-    basePath: '../src',
+    basePath: '../',
     frameworks: ['jasmine'],
-    files: ['**/*.js', '**/*.spec.js'],
+    files: ['src/**/*.js', 'src/**/*.spec.js'],
     exclude: [],
     preprocessors: {
-      '**/*.js': ['webpack' ,'sourcemap'],
-      '**/*.spec.js': ['webpack']
+      'src/**/*.js': ['webpack' ,'sourcemap'],
+      'src/**/*.spec.js': ['webpack'],
     },
-    reporters: ['progress', 'coverage-istanbul', 'coveralls'],
+    reporters: ['progress', 'coverage', 'coveralls'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -24,9 +24,13 @@ module.exports = function(config) {
     webpackMiddleware: {
       stats: 'errors-only'
     },
-    coverageIstanbulReporter: {
-        reports: ['lcov', 'text-summary'],
-        fixWebpackSourcePaths: true
-    },
+    // coverageIstanbulReporter: {
+    //   reports: ['lcov', 'text-summary'],
+    //   fixWebpackSourcePaths: true,
+    // },
+    coverageReporter: {
+      type: 'lcov',
+      dir: 'coverage/',
+    }
   });
 };
