@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "webpack --config config/webpack.dev.js",
     "build": "node build.js",
-    "unit": "karma start config/karma.conf.js",
-    "test": "./node_modules/karma/bin/karma start --single-run --no-auto-watch config/karma.conf.js"
+    "test": "karma start config/karma.conf.js"
   },
   "author": "Sibbe Heijne",
   "license": "MIT",
