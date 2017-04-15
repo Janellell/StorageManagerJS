@@ -34,14 +34,22 @@ describe('EventManager', () => {
     });
     describe('EventManager#$off', () => {
         it('should unregister all events', () => {
+            eventMananger.$on(event, handler);
             eventMananger.$off();
             expect(eventMananger._events).toEqual(Object.create(null));
         });
         it('should unregister event handlers by event name', () => {
+            eventMananger.$on(event, handler);
             eventMananger.$off(event);
             expect(eventMananger._events[event]).not.toEqual(arrayContaining([handler]));
         });
+        it('should unregister event handlers by list of event names', () => {
+            eventMananger.$on(event, handler);
+            eventMananger.$off([event, event]);
+            expect(eventMananger._events[event]).not.toEqual(arrayContaining([handler]));
+        });
         it('should unregister event handlers by event name and handler', () => {
+            eventMananger.$on(event, handler);
             eventMananger.$off(event, handler);
             expect(eventMananger._events[event]).not.toEqual(arrayContaining([handler]));
         });
