@@ -12,7 +12,7 @@ module.exports = function(config) {
       '**/*.js': ['webpack' ,'sourcemap'],
       '**/*.spec.js': ['webpack']
     },
-    reporters: ['progress', 'coverage-istanbul'],
+    reporters: ['progress', 'coverage-istanbul', 'coveralls'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
