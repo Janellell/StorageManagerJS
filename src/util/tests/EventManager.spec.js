@@ -21,32 +21,51 @@ describe('EventManager', () => {
         expect(eventMananger.$once(event, handler)).toEqual(eventMananger);
         expect(eventMananger.$emit(event)).toEqual(eventMananger);
     });
-    it('should register and unregister event handlers', () => {
-        eventMananger.$on(event, handler);
-        expect(eventMananger._events[event]).toEqual(arrayContaining([handler]));
 
-        eventMananger.$off(event, handler);
-        expect(eventMananger._events[event]).not.toEqual(arrayContaining([handler]));
+    describe('EventManager#$on', () => {
+        it('should register events by name', () => {
+            eventMananger.$on(event, handler);
+            expect(eventMananger._events[event]).toEqual(arrayContaining([handler]));
+        });
+        it('should register events by a list of names', () => {
+            eventMananger.$on([event, event], handler);
+            expect(eventMananger._events[event]).toEqual(arrayContaining([handler]));
+        });
     });
-    it('should trigger event handlers', () => {
-        eventMananger.$on(event, handler);
-        eventMananger.$emit(event);
-        expect(handler).toHaveBeenCalled();
+    describe('EventManager#$off', () => {
+        it('should unregister all events', () => {
+            eventMananger.$off();
+            expect(eventMananger._events).toEqual(Object.create(null));
+        });
+        it('should unregister event handlers by event name', () => {
+            eventMananger.$off(event);
+            expect(eventMananger._events[event]).not.toEqual(arrayContaining([handler]));
+        });
+        it('should unregister event handlers by event name and handler', () => {
+            eventMananger.$off(event, handler);
+            expect(eventMananger._events[event]).not.toEqual(arrayContaining([handler]));
+        });
     });
-    it('should trigger an event handler once', () => {
-        eventMananger.$once(event, handler);
-        eventMananger.$emit(event);
-        eventMananger.$emit(event);
+    describe('EventManager#$emit', () => {
+        it('should trigger event handlers', () => {
+            eventMananger.$on(event, handler);
+            eventMananger.$emit(event);
+            expect(handler).toHaveBeenCalled();
+        });
+        it('should trigger the $once event listeners once', () => {
+            eventMananger.$once(event, handler);
+            eventMananger.$emit(event);
+            eventMananger.$emit(event);
 
-        expect(handler).toHaveBeenCalledTimes(1);
-    });
-    it('should pass data to event handlers', () => {
-        const arg1 = 'arg1';
-        const arg2 = 2;
+            expect(handler).toHaveBeenCalledTimes(1);
+        });
+        it('should pass data to event handlers', () => {
+            const arg1 = 'arg1';
+            const arg2 = 2;
 
-        eventMananger.$on(event, handler);
-        eventMananger.$emit(event, arg1, arg2);
-
-        expect(handler).toHaveBeenCalledWith(arg1, arg2);
-    });
+            eventMananger.$on(event, handler);
+            eventMananger.$emit(event, arg1, arg2);
+            expect(handler).toHaveBeenCalledWith(arg1, arg2);
+        });
+    })
 });
