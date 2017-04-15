@@ -9,10 +9,11 @@ module.exports = function(config) {
     files: ['src/**/*.js', 'src/**/*.spec.js'],
     exclude: [],
     preprocessors: {
-      'src/**/*.js': ['webpack' ,'sourcemap'],
+      'src/**/*.js': ['webpack', 'sourcemap'],
       'src/**/*.spec.js': ['webpack'],
+      '!(*spec).js': ['webpack', 'coverage'],
     },
-    reporters: ['progress', 'coverage', 'coveralls'],
+    reporters: ['spec', 'coverage', 'coveralls'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -24,13 +25,12 @@ module.exports = function(config) {
     webpackMiddleware: {
       stats: 'errors-only'
     },
-    // coverageIstanbulReporter: {
-    //   reports: ['lcov', 'text-summary'],
-    //   fixWebpackSourcePaths: true,
-    // },
     coverageReporter: {
-      type: 'lcov',
-      dir: 'coverage/',
-    }
+      dir: './coverage',
+      reporters: [
+        { type: 'lcov', subdir: '.' },
+        { type: 'text-summary' },
+      ],
+    },
   });
 };

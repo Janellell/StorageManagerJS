@@ -22,17 +22,17 @@ describe('EventManager', () => {
         eventMananger.$off(event, handler);
         expect(eventMananger._events[event]).not.toEqual(arrayContaining([handler]));
     });
+    it('should trigger event handlers', () => {
+        eventMananger.$on(event, handler);
+        eventMananger.$emit(event);
+        expect(handler).toHaveBeenCalled();
+    });
     it('should trigger an event handler once', () => {
         eventMananger.$once(event, handler);
         eventMananger.$emit(event);
         eventMananger.$emit(event);
 
         expect(handler).toHaveBeenCalledTimes(1);
-    });
-    it('should trigger event handlers', () => {
-        eventMananger.$on(event, handler);
-        eventMananger.$emit(event);
-        expect(handler).toHaveBeenCalled();
     });
     it('should pass data to event handlers', () => {
         const arg1 = 'arg1';
