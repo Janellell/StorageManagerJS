@@ -7,7 +7,7 @@
     "dev": "webpack --config config/webpack.dev.js",
     "build": "node build.js",
     "unit": "karma start config/karma.conf.js",
-    "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS"
+    "test": "./node_modules/karma/bin/karma start --single-run --no-auto-watch config/karma.conf.js"
   },
   "author": "Sibbe Heijne",
   "license": "MIT",
@@ -26,6 +26,7 @@
     "karma": "^1.6.0",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chrome-launcher": "^2.0.0",
+    "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.7",
