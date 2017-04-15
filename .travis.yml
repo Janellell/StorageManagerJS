@@ -1,7 +1,8 @@
+sudo: required
 language: node_js
 node_js:
 addons:
-  firefox: latest
+  firefox: "latest"
   apt:
     sources:
       - google-chrome
