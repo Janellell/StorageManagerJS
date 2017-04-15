@@ -8,6 +8,8 @@ describe('EventManager', () => {
     let eventMananger;
     let handler;
     const event = 'test';
+    const arg1 = 'arg1';
+    const arg2 = 2;
 
     beforeEach(() => {
         args = undefined;
@@ -17,6 +19,7 @@ describe('EventManager', () => {
 
     it('should always return itself', () => {
         expect(eventMananger.$on(event, handler)).toEqual(eventMananger);
+        expect(eventMananger.$off(event)).toEqual(eventMananger);
         expect(eventMananger.$off(event, handler)).toEqual(eventMananger);
         expect(eventMananger.$once(event, handler)).toEqual(eventMananger);
         expect(eventMananger.$emit(event)).toEqual(eventMananger);
@@ -41,7 +44,7 @@ describe('EventManager', () => {
         it('should unregister event handlers by event name', () => {
             eventMananger.$on(event, handler);
             eventMananger.$off(event);
-            expect(eventMananger._events[event]).not.toEqual(arrayContaining([handler]));
+            expect(eventMananger._events[event]).toEqual(null);
         });
         it('should unregister event handlers by list of event names', () => {
             eventMananger.$on(event, handler);
@@ -64,13 +67,9 @@ describe('EventManager', () => {
             eventMananger.$once(event, handler);
             eventMananger.$emit(event);
             eventMananger.$emit(event);
-
             expect(handler).toHaveBeenCalledTimes(1);
         });
         it('should pass data to event handlers', () => {
-            const arg1 = 'arg1';
-            const arg2 = 2;
-
             eventMananger.$on(event, handler);
             eventMananger.$emit(event, arg1, arg2);
             expect(handler).toHaveBeenCalledWith(arg1, arg2);

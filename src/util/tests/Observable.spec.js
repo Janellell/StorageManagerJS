@@ -19,14 +19,9 @@ describe('Observable', () => {
         const path = 'b';
         const value = 'b';
 
-        observable.$on('set', handler);
         observable.set(path, value);
-        expect(handler).toHaveBeenCalledWith(path, value);
         expect(observable[path]).toEqual(value)
-
-        observable.$on('get', handler);
-        observable.get(path);
-        expect(handler.calls.mostRecent().args[0]).toEqual(path);
+        expect(observable.get(path)).toEqual(value);
     });
     it('should notify about forced updates', () => {
         observable.$on('update', handler);
