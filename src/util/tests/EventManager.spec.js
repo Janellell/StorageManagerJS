@@ -15,6 +15,12 @@ describe('EventManager', () => {
         handler = createSpy('handler');
     });
 
+    it('should always return itself', () => {
+        expect(eventMananger.$on(event, handler)).toEqual(eventMananger);
+        expect(eventMananger.$off(event, handler)).toEqual(eventMananger);
+        expect(eventMananger.$once(event, handler)).toEqual(eventMananger);
+        expect(eventMananger.$emit(event)).toEqual(eventMananger);
+    });
     it('should register and unregister event handlers', () => {
         eventMananger.$on(event, handler);
         expect(eventMananger._events[event]).toEqual(arrayContaining([handler]));

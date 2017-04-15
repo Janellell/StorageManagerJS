@@ -56,7 +56,6 @@ class EventManager {
                 break;
             }
         }
-
         return self;
     }
     $once(event, handler) {
@@ -77,6 +76,7 @@ class EventManager {
                 cbs[i].apply(self, args);
             }
         }
+        return self;
     }
 }
 
