@@ -7,10 +7,7 @@ addons:
     sources:
       - google-chrome
     packages:
-      - libfontconfig1
-      - libstdc++6
-      - lsb-base
       - google-chrome-stable
-before_instal:
-  - sudo apt-get update
-  - sudo apt-get libfontconfig1 -y
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
