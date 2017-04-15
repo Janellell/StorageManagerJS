@@ -13,7 +13,7 @@ describe('Observable', () => {
     });
 
     it('should be created from source', () => {
-        expect(observable.a).toBe(source.a);
+        expect(observable.a).toEqual(source.a);
     });
     it('should set and get the right property', () => {
         const path = 'b';
@@ -22,6 +22,7 @@ describe('Observable', () => {
         observable.$on('set', handler);
         observable.set(path, value);
         expect(handler).toHaveBeenCalledWith(path, value);
+        expect(observable[path]).toEqual(value)
 
         observable.$on('get', handler);
         observable.get(path);

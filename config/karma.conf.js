@@ -12,7 +12,7 @@ module.exports = function(config) {
       '**/*.js': ['webpack' ,'sourcemap'],
       '**/*.spec.js': ['webpack']
     },
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage-istanbul'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -23,6 +23,10 @@ module.exports = function(config) {
     webpack: webpackConfig,
     webpackMiddleware: {
       stats: 'errors-only'
+    },
+    coverageIstanbulReporter: {
+        reports: ['lcov', 'text-summary'],
+        fixWebpackSourcePaths: true
     },
   });
 };
