@@ -1,6 +1,3 @@
-import MemoryStore from '../stores/MemoryStore';
-import BrowserStore from '../stores/BrowserStore';
-import RemoteStore from '../stores/RemoteStore';
 import Observable from '../util/Observable';
 
 class StorageManager {
@@ -31,9 +28,6 @@ class StorageManager {
     }
 }
 
-StorageManager.MemoryStore = MemoryStore;
-StorageManager.BrowserStore = BrowserStore;
-StorageManager.RemoteStore = RemoteStore;
 StorageManager.Observable = Observable;
 
 export default StorageManager;
