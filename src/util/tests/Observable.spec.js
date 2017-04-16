@@ -1,38 +1,34 @@
 import Observable from '../Observable';
 
-const { createSpy } = jasmine;
+const { createSpy, arrayContaining } = jasmine;
 
 describe('Observable', () => {
-    const source = { a: 'a' };
-    let observable;
-    let handler;
+    let source, observable, handler;
+    const event = 'test';
+    const arg1 = 'arg1';
+    const arg2 = 2;
 
     beforeEach(() => {
-        observable = new Observable(source, { onSet: createSpy('onSet') });
+        source = {};
+        observable = new Observable(source);
         handler = createSpy('handler');
     });
 
     it('should be created from source', () => {
+        source.a = 'a';
+        observable = new Observable(source);
         expect(observable.a).toEqual(source.a);
     });
-    it('should set and get the right property', () => {
-        const path = 'b';
-        const value = 'b';
 
-        observable.set(path, value);
-        expect(observable[path]).toEqual(value)
-        expect(observable.get(path)).toEqual(value);
+    it('should forward to source', () => {
+        observable.a = 'a';
+        expect(observable.a).toEqual(source.a);
     });
-    it('should notify about forced updates', () => {
-        observable.$on('update', handler);
-        observable.update();
-        expect(handler).toHaveBeenCalled();
-    });
-    it('should trigger hooks', () => {
-        const path = 'a';
-        const value = 'A';
 
-        observable.set(path, value);
-        expect(observable._hooks.onSet).toHaveBeenCalledWith(path, value);
-    });
+    // it('should work with arrays too', () => {
+    //     source = [];
+    //     observable = new Observable(source);
+    //     source.push(1);
+    //     expect(observable[0]).toEqual(source[0]);
+    // });
 });

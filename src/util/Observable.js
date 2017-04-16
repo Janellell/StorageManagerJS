@@ -1,46 +1,44 @@
-import _ from 'lodash';
 import EventManager from './EventManager';
+import { EVENTS } from '../constants';
 
-const OBSERVER_EVENTS = {
-    SET: 'set',
-    AFTER_SET: 'afterset',
-    GET: 'get',
-    UPDATE: 'update',
-};
-
+/**
+ * @returns {Observable} observable instance created from supplied source
+ * @todo Make this work with arrays (we currently replace the prototype on the source)
+ */
 class Observable extends EventManager {
-    constructor(source, options) {
+    constructor(source = {}) {
         super();
         const self = this;
-        _.assign(self, source);
+        const __proto__ = Object.getPrototypeOf(self);
+        self._originalSource = _.clone(source);
 
-        self._hooks = {
-            onSet: options.onSet || _.noop,
-            afterSet: options.afterSet || _.noop,
-            onGet: options.onGet || _.noop,
-            onUpdate: options.onUpdate || _.noop,
-        };
-
-        self.$on(OBSERVER_EVENTS.SET, self._hooks.onSet);
-        self.$on(OBSERVER_EVENTS.AFTER_SET, self._hooks.afterSet);
-        self.$on(OBSERVER_EVENTS.GET, self._hooks.onGet);
-        self.$on(OBSERVER_EVENTS.UPDATE, self._hooks.onUpdate);
-    }
-    set(path, value) {
-        const self = this;
-        self.$emit(OBSERVER_EVENTS.SET, path, value);
-        _.set(self, path, value);
-        self.$emit(OBSERVER_EVENTS.AFTER_SET);
-        return _.get(self, path);
-    }
-    get(path) {
-        const self = this;
-        self.$emit(OBSERVER_EVENTS.GET, path);
-        return _.get(self, path);
-    }
-    update() {
-        const self = this;
-        self.$emit(OBSERVER_EVENTS.UPDATE, self);
+        // MWUAHAHAHAH I iz undercover proxy >:)
+        Object.setPrototypeOf(source, __proto__);
+        Object.setPrototypeOf(self, 
+            new Proxy(source, {
+                get: (observable, prop) => {
+                    return observable[prop];
+                },
+                set: (observable, prop, value) => {
+                    self.$emit(EVENTS.BEFORE_SET, prop, value);
+                    observable[prop] = value;
+                    self.$emit(EVENTS.SET, prop, value);
+                    return true;
+                },
+                defineProperty: (observable, prop, descriptor) => {
+                    self.$emit(EVENTS.BEFORE_SET, prop, value);
+                    Object.prototype.defineProperty(observable, prop, descriptor);
+                    self.$emit(EVENTS.SET, prop, value);
+                    return true;
+                },
+                deleteProperty: (observable, prop) => {
+                    self.$emit(EVENTS.BEFORE_DELETE, prop);
+                    Object.prototype.deleteProperty(observable[prop]);
+                    self.$emit(EVENTS.DELETED, prop);
+                    return true;
+                },
+            })
+        );
     }
 }
 

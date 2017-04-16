@@ -1,10 +1,15 @@
-/**
- * Basically copy pasted from VueJS event mixin
- */
 class EventManager {
     constructor() {
         const self = this;
+
         self._events = Object.create(null);
+        self.$hooks = new Proxy(self.$hooks || Object.create(null), {
+            set: (hooks, hook, handler) => {
+                hooks[hook] = handler;
+                self.$on(hook, handler);
+                return true;
+            },
+        });
     }
     $on(event, handler) {
         const self = this;
