@@ -12,12 +12,13 @@ addons:
 script: cross-env NODE_ENV=test node_modules/karma/bin/karma start --single-run --no-auto-watch config/karma.conf.js
 before_install:
   - wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.5.0-beta-linux-ubuntu-trusty-x86_64.tar.gz
-  - tar -zxvf phantomjs-2.5.0-beta-linux-ubuntu-trusty-x86_64.tar.gz
+  - tar -xjf phantomjs-2.5.0-beta-linux-ubuntu-trusty-x86_64.tar.gz
   - ls -hal .
-  - chmod +x phantomjs-2.5.0-beta-ubuntu-trusty/bin/phantomjs
-  - sudo mv phantomjs-2.5.0-beta-ubuntu-trusty/ /usr/local/
-  - export PHANTOMJS_BIN=/usr/local/phantomjs-2.5.0-beta-ubuntu-trusty/bin/phantomjs
-  - /usr/local/phantomjs-2.5.0-beta-ubuntu-trusty/bin/phantomjs --version
+  - chmod +x phantomjs/bin/phantomjs
+  - ls -hal phantomjs
+  - sudo rm -rf /usr/local/phantomjs/bin/phantomjs
+  - sudo mv phantomjs /usr/local/phantomjs/bin/phantomjs
+  - phantomjs -v
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
