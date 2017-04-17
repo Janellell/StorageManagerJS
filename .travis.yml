@@ -11,7 +11,7 @@ addons:
       - google-chrome-stable
 script: cross-env NODE_ENV=test node_modules/karma/bin/karma start --single-run --no-auto-watch config/karma.conf.js
 before_install:
-  - env PHANTOMJS_BIN=/usr/local/phantomjs
+  - env PHANTOMJS_BIN=/usr/local/phantomjs/bin/phantomjs
   - sudo apt-get -qq update
   - sudo apt-get install -y phantomjs libicu52 libxml2 libxslt1.1 libhyphen0 libwebp5 software-properties-common
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y && sudo apt-get -qq update && sudo apt-get install -y gcc-4.9 g++-4.9
