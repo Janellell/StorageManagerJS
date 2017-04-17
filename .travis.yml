@@ -16,7 +16,7 @@ before_install:
   - mv phantomjs-2.5.0-beta-ubuntu-trusty phantomjs
   - chmod +x phantomjs/bin/phantomjs
   - sudo rm -rf /usr/local/phantomjs/bin/phantomjs
-  - sudo mv phantomjs /usr/local/phantomjs/bin/phantomjs
+  - sudo mv phantomjs /usr/local/phantomjs/bin
   - phantomjs -v
 before_script:
   - export DISPLAY=:99.0
