@@ -13,6 +13,7 @@ script: cross-env NODE_ENV=test node_modules/karma/bin/karma start --single-run 
 before_install:
   - wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.5.0-beta-linux-ubuntu-trusty-x86_64.tar.gz
   - tar -zxvf phantomjs-2.5.0-beta-linux-ubuntu-trusty-x86_64.tar.gz
+  - ls -hal phantomjs*
   - chmod +x phantomjs-2.5.0-beta-linux-ubuntu-trusty-x86_64/bin/phantomjs
   - sudo mv phantomjs-2.5.0-beta-linux-ubuntu-trusty-x86_64/ /usr/local/phantomjs
   - export PHANTOMJS_BIN=/usr/local/phantomjs/bin/phantomjs

@@ -21,7 +21,10 @@ describe('Observable', () => {
     });
 
     it('should forward to source', () => {
+        source.a = '';
+        expect(source.a).toEqual('');
         observable.a = 'a';
+        expect(observable.a).toEqual('a');
         expect(observable.a).toEqual(source.a);
     });
 
