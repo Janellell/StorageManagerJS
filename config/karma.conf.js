@@ -18,7 +18,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome', 'Firefox', 'PhantomJS'],
+    browsers: ['Chrome', 'Firefox'/*, 'PhantomJS'*/], // PhantomJS doesn't work with JS Proxy's
     singleRun: false,
     concurrency: Infinity,
     webpack: webpackConfig,
