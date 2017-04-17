@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "webpack --config config/webpack.dev.js",
     "build": "node build.js",
+    "unit": "cross-env NODE_ENV=test karma start config/karma.conf.js",
     "test": "cross-env NODE_ENV=test karma start --browsers Chrome config/karma.conf.js"
   },
   "author": "Sibbe Heijne",
