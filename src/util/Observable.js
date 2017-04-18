@@ -12,6 +12,10 @@ class Observable extends EventManager {
         const __proto__ = Object.getPrototypeOf(self);
         self._originalSource = _.clone(source);
 
+        Object.defineProperties(self, {
+            _originalSource: { enumerable: false },
+        });
+
         // MWUAHAHAHAH I iz undercover proxy >:)
         Object.setPrototypeOf(source, __proto__);
         Object.setPrototypeOf(self, 
@@ -20,20 +24,26 @@ class Observable extends EventManager {
                     return observable[prop];
                 },
                 set: (observable, prop, value) => {
-                    self.$emit(EVENTS.BEFORE_SET, prop, value);
-                    observable[prop] = value;
-                    self.$emit(EVENTS.SET, prop, value);
+                    if (value === undefined) {
+                        self.$emit(EVENTS.BEFORE_DELETE, prop, value);
+                        observable[prop] = value;
+                        self.$emit(EVENTS.DELETED, prop, value);
+                    } else {
+                        self.$emit(EVENTS.BEFORE_SET, prop, value);
+                        observable[prop] = value;
+                        self.$emit(EVENTS.SET, prop, value);
+                    }
                     return true;
                 },
                 defineProperty: (observable, prop, descriptor) => {
                     self.$emit(EVENTS.BEFORE_SET, prop, value);
-                    Object.prototype.defineProperty(observable, prop, descriptor);
+                    Object.defineProperty(observable, prop, descriptor);
                     self.$emit(EVENTS.SET, prop, value);
                     return true;
                 },
                 deleteProperty: (observable, prop) => {
                     self.$emit(EVENTS.BEFORE_DELETE, prop);
-                    Object.prototype.deleteProperty(observable[prop]);
+                    delete observable[prop];
                     self.$emit(EVENTS.DELETED, prop);
                     return true;
                 },

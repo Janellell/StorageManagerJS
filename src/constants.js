@@ -4,3 +4,7 @@ export const EVENTS = {
     BEFORE_DELETE: 'beforedelete',
     DELETED: 'deleted',
 };
+
+export const STORAGE_MANAGER_OPTIONS = {
+    autoSync: true,
+};

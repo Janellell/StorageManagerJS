@@ -28,6 +28,10 @@ describe('Observable', () => {
         expect(observable.a).toEqual(source.a);
     });
 
+    it('should execute hooks accordingly', () => {
+        
+    });
+
     // it('should work with arrays too', () => {
     //     source = [];
     //     observable = new Observable(source);

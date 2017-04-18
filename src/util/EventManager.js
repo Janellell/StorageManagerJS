@@ -1,14 +1,23 @@
 class EventManager {
     constructor() {
         const self = this;
-
         self._events = Object.create(null);
         self.$hooks = new Proxy(self.$hooks || Object.create(null), {
             set: (hooks, hook, handler) => {
                 hooks[hook] = handler;
-                self.$on(hook, handler);
+                self.$on(hook.toLowerCase(), handler);
                 return true;
             },
+            deleteProperty: (hooks, hook) => {
+                self.$off(hook.toLowerCase(), hooks[hook]);
+                delete hooks[hook];
+                return true;
+            },
+        });
+
+        Object.defineProperties(self, {
+            _events: { enumerable: false },
+            $hooks: { enumerable: false },
         });
     }
     $on(event, handler) {
